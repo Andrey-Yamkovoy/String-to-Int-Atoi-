@@ -1,0 +1,43 @@
+class Solution(object):
+     def myAtoi(this,s):
+        sign = 1
+        startIndex = -1
+        stopIndex = -1
+        nextShouldBeDigit = False
+    
+        for i in range(0, len(s), 1):
+            ch = s[i]
+            if ch.isdigit():
+                nextShouldBeDigit = True
+                if startIndex < 0:
+                    startIndex = i
+    
+    
+            elif nextShouldBeDigit:
+                break
+    
+            elif ch == '-':
+                sign = -1
+                nextShouldBeDigit = True
+    
+            elif ch == '+':
+                nextShouldBeDigit = True
+    
+            elif ch != ' ':
+                break
+    
+            stopIndex = i
+    
+        if stopIndex >= 0 and startIndex >= 0:
+            zeroVal = int('0')
+            result = 0
+            for i in range(startIndex, stopIndex+1):
+                result = (result * 10) + (int(s[i]) - zeroVal);
+                if result > (1 << 31) - 1:
+                    return -(1 << 31) if sign < 0 else (1 << 31) - 1
+    
+            return int(result) * sign
+    
+        return 0
+
+        
